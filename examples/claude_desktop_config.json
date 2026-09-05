@@ -1,0 +1,28 @@
+{
+  "_comment": [
+    "Copy the 'contextslim' block into your Claude Desktop config file:",
+    "  macOS   ~/Library/Application Support/Claude/claude_desktop_config.json",
+    "  Windows %APPDATA%\\Claude\\claude_desktop_config.json",
+    "  Linux   ~/.config/Claude/claude_desktop_config.json",
+    "",
+    "Replace /absolute/path/to/contextslim-mcp with wherever you cloned this repo.",
+    "On Windows the command is: C:\\\\path\\\\to\\\\contextslim-mcp\\\\.venv\\\\Scripts\\\\python.exe",
+    "",
+    "API keys do NOT belong here. Put them in the project's .env file, which is",
+    "git-ignored and read automatically:",
+    "  echo 'GEMINI_API_KEY=your-key-here' > .env",
+    "Without a key, deep mode falls back to slim mode and everything else works.",
+    "",
+    "Restart Claude Desktop after editing. Remove this _comment key first:",
+    "JSON has no comments and Claude Desktop will reject the file otherwise."
+  ],
+  "mcpServers": {
+    "contextslim": {
+      "command": "/absolute/path/to/contextslim-mcp/.venv/bin/python",
+      "args": ["-m", "contextslim"],
+      "env": {
+        "CONTEXTSLIM_LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
