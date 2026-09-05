@@ -1,5 +1,35 @@
+# Environment / secrets
 .env
+.env.local
+*.key
+
+# Python
 __pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# ContextSlim runtime data (never commit capsules or the local DB)
 *.db
-*.log
-practice/
+*.db-journal
+*.db-wal
+*.db-shm
+data/
+exports/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
