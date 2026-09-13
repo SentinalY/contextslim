@@ -78,30 +78,70 @@ objective.
 
 ## Install
 
-Requires **Python 3.10+**.
+Requires **Python 3.10+** (macOS ships 3.9, which is too old — get a newer one
+from [python.org/downloads](https://www.python.org/downloads/)).
+
+**Quit Claude Desktop first.** It rewrites its own config file when it exits,
+so anything written while it is running is discarded. The installer checks for
+this and refuses rather than writing something that will vanish.
+
+Then, two commands:
+
+```bash
+pip install git+https://github.com/yagnadeepreddy081-reddy/contextslim-mcp.git
+contextslim install
+```
+
+That's it. `contextslim install` finds Claude Desktop's config file on your OS,
+adds this server using the exact interpreter it was installed into, backs up
+the previous file, and leaves any other MCP servers you have untouched.
+
+Reopen Claude Desktop and ask:
+
+> "check my context health with a token count of 94000"
+
+A `CRITICAL` reply means it is connected.
+
+### Working on the code instead
 
 ```bash
 git clone https://github.com/yagnadeepreddy081-reddy/contextslim-mcp.git
 cd contextslim-mcp
 
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 
 pip install -e ".[dev]"
+pytest -q                          # 276 tests, all offline
+python scripts/demo.py             # the whole pipeline, no API key needed
+contextslim install
 ```
 
-Check it works — this runs the whole pipeline offline with no API key:
+### Installer options
 
 ```bash
-python scripts/demo.py
-contextslim --info                 # prints resolved paths and capabilities
+contextslim install --dry-run      # show what would change, write nothing
+contextslim install --name slim2   # register under a different name
+contextslim install --config PATH  # point at a specific config file
+contextslim install --force        # write even if Claude Desktop is running
+contextslim uninstall              # remove the entry again
+contextslim --info                 # resolved paths, provider, capabilities
 ```
+
+### Windows notes
+
+- Use `py -3.13 -m venv .venv`, then `.venv\Scripts\activate` (not `bin`)
+- If PowerShell blocks the activate script:
+  `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`
+- Claude Desktop hides in the system tray — right-click its icon and choose
+  **Quit** before installing; closing the window is not enough
 
 ---
 
 ## Connect it to Claude Desktop
 
-Add ContextSlim to your Claude Desktop config:
+`contextslim install` does this for you. This section is for anyone who wants
+to know what it writes, or who prefers editing the file by hand.
 
 | OS | Config file |
 |---|---|
@@ -120,7 +160,9 @@ Add ContextSlim to your Claude Desktop config:
 }
 ```
 
-On Windows the command is `C:\\path\\to\\contextslim-mcp\\.venv\\Scripts\\python.exe`.
+On Windows the command is `C:\\path\\to\\contextslim-mcp\\.venv\\Scripts\\python.exe`
+— **double backslashes**, since JSON treats a single `\` as an escape character.
+Getting this wrong is the most common reason an MCP server never appears.
 
 An API key is optional and belongs in the project's `.env` rather than in this
 file, so it never ends up in a config you might share:
@@ -409,7 +451,7 @@ pytest --cov=contextslim                 # with coverage
 pytest tests/test_server.py -v           # MCP protocol tests only
 ```
 
-**243 tests, ~96% coverage.** No test touches the network, spends API credit, or
+**276 tests, ~96% coverage.** No test touches the network, spends API credit, or
 writes outside a temporary directory. Both vendor clients are stubbed, so deep
 mode's prompt shape, per-provider request format, JSON parsing, chunking, rate
 limiting and every fallback path are all covered offline.
