@@ -51,8 +51,8 @@ dev = [
 contextslim = "contextslim.__main__:main"
 
 [project.urls]
-Homepage = "https://github.com/yagnadeepreddy081-reddy/contextslim-mcp"
-Repository = "https://github.com/yagnadeepreddy081-reddy/contextslim-mcp"
+Homepage = "https://github.com/yagnadeepreddy081-reddy/contextslim"
+Repository = "https://github.com/yagnadeepreddy081-reddy/contextslim"
 
 [tool.setuptools.packages.find]
 where = ["src"]
