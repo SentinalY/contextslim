@@ -88,7 +88,7 @@ this and refuses rather than writing something that will vanish.
 Then, two commands:
 
 ```bash
-pip install git+https://github.com/yagnadeepreddy081-reddy/contextslim-mcp.git
+pip install git+https://github.com/sentinalY/contextslim.git
 contextslim install
 ```
 
@@ -105,8 +105,8 @@ A `CRITICAL` reply means it is connected.
 ### Working on the code instead
 
 ```bash
-git clone https://github.com/yagnadeepreddy081-reddy/contextslim-mcp.git
-cd contextslim-mcp
+git clone https://github.com/sentinalY/contextslim.git
+cd contextslim
 
 python3 -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
@@ -153,14 +153,14 @@ to know what it writes, or who prefers editing the file by hand.
 {
   "mcpServers": {
     "contextslim": {
-      "command": "/absolute/path/to/contextslim-mcp/.venv/bin/python",
+      "command": "/absolute/path/to/contextslim/.venv/bin/python",
       "args": ["-m", "contextslim"]
     }
   }
 }
 ```
 
-On Windows the command is `C:\\path\\to\\contextslim-mcp\\.venv\\Scripts\\python.exe`
+On Windows the command is `C:\\path\\to\\contextslim\\.venv\\Scripts\\python.exe`
 — **double backslashes**, since JSON treats a single `\` as an escape character.
 Getting this wrong is the most common reason an MCP server never appears.
 
@@ -198,8 +198,8 @@ python3 --version
 
 # 2. Clone
 cd ~/Desktop
-git clone https://github.com/yagnadeepreddy081-reddy/contextslim-mcp.git
-cd contextslim-mcp
+git clone https://github.com/sentinalY/contextslim.git
+cd contextslim
 
 # 3. Virtual environment and dependencies
 python3.13 -m venv .venv
@@ -226,7 +226,7 @@ edit made while the app is running gets silently discarded. Quit it first:
 osascript -e 'quit app "Claude"'
 pgrep -x Claude || echo CLOSED          # must print CLOSED before continuing
 
-python -c "import json,shutil;from pathlib import Path;p=Path.home()/'Library/Application Support/Claude/claude_desktop_config.json';shutil.copy(p,str(p)+'.backup');d=json.loads(p.read_text());d.setdefault('mcpServers',{})['contextslim']={'command':str(Path.home()/'Desktop/contextslim-mcp/.venv/bin/python'),'args':['-m','contextslim']};p.write_text(json.dumps(d,indent=2));print('WROTE OK')"
+python -c "import json,shutil;from pathlib import Path;p=Path.home()/'Library/Application Support/Claude/claude_desktop_config.json';shutil.copy(p,str(p)+'.backup');d=json.loads(p.read_text());d.setdefault('mcpServers',{})['contextslim']={'command':str(Path.home()/'Desktop/contextslim/.venv/bin/python'),'args':['-m','contextslim']};p.write_text(json.dumps(d,indent=2));print('WROTE OK')"
 
 open -a Claude
 ```
